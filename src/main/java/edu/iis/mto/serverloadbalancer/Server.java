@@ -27,4 +27,8 @@ public class Server {
 		return currentLoadPercentage;
 	}
 
+	public int getVmsCount() {
+		return vms.size();
+	}
+
 }

@@ -65,6 +65,10 @@ public class ServerLoadBalancerTest {
 		assertThat( server , containsVm( theSecondVm ) );
 	}
 
+	private static Matcher<? super Server> hasVmCaountOf(int quantity) {
+		return new VmsQuantityMatcher( quantity );
+	}
+
 	private Matcher<? super Server> containsVm(Vm theVm) {
 		return new ContainingVmMatcher( theVm );
 	}
