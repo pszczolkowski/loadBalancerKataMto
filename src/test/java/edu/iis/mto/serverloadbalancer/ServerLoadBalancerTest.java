@@ -50,6 +50,19 @@ public class ServerLoadBalancerTest {
 		assertThat( server , hasLoadPercentageOf( 10.0d ) );
 		assertThat( server , containsVm( theVm ) );
 	}
+	
+	@Test
+	public void balancingAServerWithEnoughRoom_getsFilledWithAllVms(){
+		Server server = a( server().withCapacity( 10 ) );
+		Vm theFirstVm = a( vm().ofSize( 1 ) );
+		Vm theSecondVm = a( vm().ofSize( 1 ) );
+		
+		balance( aListOfServersWith( server ) ,  aListOfVmsWith( theFirstVm , theSecondVm ) );
+		
+		assertThat( server , hasLoadPercentageOf( 20.0d ) );
+		assertThat( server , containsVm( theFirstVm ) );
+		assertThat( server , containsVm( theSecondVm ) );
+	}
 
 	private Matcher<? super Server> containsVm(Vm theVm) {
 		return new ContainingVmMatcher( theVm );
