@@ -7,7 +7,7 @@ public class Server {
 	
 	private static final int MAXIMUM_LOAD = 100;
 	private int capacity;
-	private double currentLoadPercentage;
+	private double currentLoadPercentage = 0;
 	private List<Vm> vms = new ArrayList<Vm>();
 
 	public Server(int capacity) {
