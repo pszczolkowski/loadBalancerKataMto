@@ -1,6 +1,7 @@
 package edu.iis.mto.serverloadbalancer;
 
 import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 public class ContainingVmMatcher extends TypeSafeMatcher< Server > {
@@ -24,6 +25,10 @@ public class ContainingVmMatcher extends TypeSafeMatcher< Server > {
 	@Override
 	protected boolean matchesSafely(Server server) {
 		return server.getVms().contains( vm );
+	}
+	
+	public static Matcher<? super Server> containsVm(Vm theVm) {
+		return new ContainingVmMatcher( theVm );
 	}
 
 }
