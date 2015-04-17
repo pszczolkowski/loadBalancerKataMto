@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
 public class ServerLoadBalancerTest {
@@ -25,7 +26,34 @@ public class ServerLoadBalancerTest {
 		balance( aListOfServersWith( server ) , anEmptyListOfVms() );
 		
 		assertThat( server , hasLoadPercentageOf( 0.0d ) );
-	}		
+	}
+	
+	@Test
+	public void balancingOneServerWithOneSlotCapacity_andOneSlotVm_fillsTheServerWithTheVm(){
+		Server server = a( server().withCapacity( 1 ) );
+		Vm theVm = a( vm().ofSize( 1 ) );
+		
+		balance( aListOfServersWith( server ) ,  aListOfVmsWith( theVm ) );
+		
+		assertThat( server , hasLoadPercentageOf( 100.0d ) );
+		assertThat( server , containsVm( theVm ) );
+	}
+
+	private Matcher<? super Server> containsVm(Vm theVm) {
+		return new ContainingVmMatcher( theVm );
+	}
+
+	private List<Vm> aListOfVmsWith(Vm... theVms) {
+		return new ArrayList< Vm >( Arrays.asList( theVms ) );
+	}
+
+	private Vm a(VmBuilder builder) {
+		return builder.build();
+	}
+
+	private VmBuilder vm() {
+		return new VmBuilder();
+	}
 
 	private void balance(List<Server> servers,
 			List<Vm> vms) {
