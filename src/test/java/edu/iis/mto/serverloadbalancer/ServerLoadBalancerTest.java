@@ -66,6 +66,20 @@ public class ServerLoadBalancerTest {
 		assertThat( server , containsVm( theFirstVm ) );
 		assertThat( server , containsVm( theSecondVm ) );
 	}
+	
+	@Test
+	public void aVm_shouldBeBalanced_onLeastLoadedServer(){
+		Server theFirstServer = a( server().withCapacity( 10 ).withLoadPercentage( 90.0d ) );
+		Server theSecondServer = a( server().withCapacity( 10 ).withLoadPercentage( 10.0d ) );
+		
+		Vm theVm = a( vm().ofSize( 2 ) );
+		
+		balance( aListOfServersWith( theFirstServer , theSecondServer ) ,  aListOfVmsWith( theVm ) );
+		
+		assertThat( theFirstServer , hasLoadPercentageOf( 90.0d ) );
+		assertThat( theSecondServer , hasLoadPercentageOf( 30.0d ) );
+		assertThat( theSecondServer , containsVm( theVm ) );
+	}
 
 	private List<Vm> aListOfVmsWith(Vm... theVms) {
 		return new ArrayList< Vm >( Arrays.asList( theVms ) );
