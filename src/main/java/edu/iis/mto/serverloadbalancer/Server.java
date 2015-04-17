@@ -19,6 +19,7 @@ public class Server {
 
 	public void addVm(Vm vm) {
 		vms.add( vm );
+		currentLoadPercentage += vm.getSize() / this.capacity * 100;
 	}
 
 }
