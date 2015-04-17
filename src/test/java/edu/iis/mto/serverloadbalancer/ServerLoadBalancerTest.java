@@ -60,6 +60,7 @@ public class ServerLoadBalancerTest {
 		balance( aListOfServersWith( server ) ,  aListOfVmsWith( theFirstVm , theSecondVm ) );
 		
 		assertThat( server , hasLoadPercentageOf( 20.0d ) );
+		assertThat( server , hasVmCaountOf( 2 ) );
 		assertThat( server , containsVm( theFirstVm ) );
 		assertThat( server , containsVm( theSecondVm ) );
 	}
