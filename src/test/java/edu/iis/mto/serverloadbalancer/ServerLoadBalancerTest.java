@@ -8,12 +8,15 @@ import static edu.iis.mto.serverloadbalancer.VmBuilder.vm;
 import static edu.iis.mto.serverloadbalancer.VmsQuantityMatcher.hasVmCountOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ServerLoadBalancerTest {
@@ -64,6 +67,21 @@ public class ServerLoadBalancerTest {
 		assertThat( theServer , hasVmCountOf( 2 ) );
 		assertThat( theServer , containsVm( theFirstVm ) );
 		assertThat( theServer , containsVm( theSecondVm ) );
+	}
+	
+	@Test
+	public void balanceTwoServers_vmShouldBeAssignedToLeastLoadedServer(){
+		Server lessLoadedServer = a( server().withCapacity( 10 ).withCurrentLoadOf( 45.0d ) );
+		Server moreLoadedServer = a( server().withCapacity( 10 ).withCurrentLoadOf( 50.0d ) );
+		Vm theVm = a( vm().ofSize( 10 ) );
+		
+		balance( aListOfServersWith( moreLoadedServer , lessLoadedServer ) , aListOfVmsWith( theVm ) );
+		
+		assertThat( lessLoadedServer , containsVm( theVm ) );
+		// the test need to fail at invoking contains method from Server class
+		// so it is necessary to check whether moreLoadedServer contains
+		// the vm (it shouldn't)
+		assertThat( moreLoadedServer , not( containsVm( theVm ) ) );
 	}
 	
 
