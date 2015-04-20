@@ -70,7 +70,7 @@ public class ServerLoadBalancerTest {
 	public void balanceTwoServers_vmShouldBeAssignedToLeastLoadedServer(){
 		Server lessLoadedServer = a( server().withCapacity( 10 ).withCurrentLoadOf( 45.0d ) );
 		Server moreLoadedServer = a( server().withCapacity( 10 ).withCurrentLoadOf( 50.0d ) );
-		Vm theVm = a( vm().ofSize( 10 ) );
+		Vm theVm = a( vm().ofSize( 1 ) );
 		
 		balance( aListOfServersWith( moreLoadedServer , lessLoadedServer ) , aListOfVmsWith( theVm ) );
 		
