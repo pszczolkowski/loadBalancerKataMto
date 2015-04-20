@@ -51,6 +51,19 @@ public class ServerLoadBalancerTest {
 		assertThat( theServer , containsVm( theVm ) );
 	}
 	
+	@Test
+	public void balanceOnseServerWithEnoughCapacity_filledWithAllVms(){
+		Server theServer = a( server().withCapacity( 10 ) );
+		Vm theFirstVm = a( vm().ofSize( 1 ) );
+		Vm theSecondVm = a( vm().ofSize( 1 ) );
+		
+		balance( aListOfServersWith( theServer ) , aListOfVmsWith( theFirstVm , theSecondVm ) );
+		
+		assertThat( theServer , hasVmCountOf( 2 ) );
+		assertThat( theServer , containsVm( theFirstVm ) );
+		assertThat( theServer , containsVm( theSecondVm ) );
+	}
+	
 
 	private List<Vm> aListOfVmsWith(Vm... vms) {
 		return new ArrayList< Vm >( Arrays.asList( vms ) );
