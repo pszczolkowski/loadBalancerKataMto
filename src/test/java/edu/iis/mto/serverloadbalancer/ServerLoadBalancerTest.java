@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
 public class ServerLoadBalancerTest {
@@ -39,6 +40,22 @@ public class ServerLoadBalancerTest {
 	}
 
 	
+	private Matcher<? super Server> containsVm(Vm theVm) {
+		return new ContainingVmMatcher( theVm );
+	}
+
+	private List<Vm> aListOfVmsWith(Vm... vms) {
+		return new ArrayList< Vm >( Arrays.asList( vms ) );
+	}
+
+	private Vm a(VmBuilder builder) {
+		return builder.build();
+	}
+
+	private VmBuilder vm() {
+		return new VmBuilder();
+	}
+
 	private void balance(List<Server> servers,
 			List<Vm> vms) {
 		new ServerLoadBalancer().balance( servers , vms );

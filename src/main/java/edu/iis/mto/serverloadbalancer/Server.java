@@ -1,5 +1,6 @@
 package edu.iis.mto.serverloadbalancer;
 
+
 public class Server {
 
 	private int capacity;
@@ -7,6 +8,10 @@ public class Server {
 
 	public Server(int capacity) {
 		this.capacity = capacity;
+	}
+
+	public boolean containsVm(Vm vm) {
+		return true;
 	}
 
 }
