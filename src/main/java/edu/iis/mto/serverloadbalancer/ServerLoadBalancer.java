@@ -5,11 +5,16 @@ import java.util.List;
 public class ServerLoadBalancer {
 
 	public void balance(List<Server> servers, List<Vm> vms) {
-		Server server = servers.get( 0 );
-		
-		for( Vm vm : vms )
-			server.addVm( vm );
-		
+		for( Vm vm: vms ){
+			Server leastLoadedServer = null;
+			
+			for (Server server : servers) {
+				if( leastLoadedServer == null || server.getCurrentLoadPercentage() < leastLoadedServer.getCurrentLoadPercentage())
+					leastLoadedServer = server;
+			}
+			
+			leastLoadedServer.addVm( vm );
+		}
 	}
 
 }
