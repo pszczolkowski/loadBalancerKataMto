@@ -21,7 +21,7 @@ public class Server {
 
 	public void addVm(Vm vm) {
 		vms.add( vm );
-		this.currentLoadPercentage = loadOfVm( vm );
+		this.currentLoadPercentage += loadOfVm( vm );
 	}
 
 	private double loadOfVm(Vm vm) {

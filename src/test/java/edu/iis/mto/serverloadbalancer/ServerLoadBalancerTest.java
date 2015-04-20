@@ -102,9 +102,9 @@ public class ServerLoadBalancerTest {
         
         balance(aListOfServersWith(server1, server2), aListOfVmsWith(vm1, vm2, vm3));
         
-        assertThat( server1 , not( containsVm( vm1 ) ) );
-        assertThat( server2 , not( containsVm( vm2 ) ) );
-        assertThat( server1 , not( containsVm( vm3 ) ) );
+        assertThat( server1 , containsVm( vm1 ) );
+        assertThat( server2 , containsVm( vm2 ) );
+        assertThat( server1 , containsVm( vm3 ) );
         
         assertThat(server1, hasLoadPercentageOf(75.0d));
         assertThat(server2, hasLoadPercentageOf(66.66d));
