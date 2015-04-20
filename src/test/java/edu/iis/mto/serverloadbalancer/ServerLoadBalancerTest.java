@@ -39,6 +39,18 @@ public class ServerLoadBalancerTest {
 		assertThat( theServer , hasLoadPercentageOf( 100.0d ) );
 		assertThat( theServer , containsVm( theVm ) );
 	}
+	
+	@Test
+	public void balanceOneServerWithTenSlotCapacity_andOneSlotVm_fillTheServerInTenPercent(){
+		Server theServer = a( server().withCapacity( 10 ) );
+		Vm theVm = a( vm().ofSize( 1 ) );
+		
+		balance( aListOfServersWith( theServer ) , aListOfVmsWith( theVm ) );
+		
+		assertThat( theServer , hasLoadPercentageOf( 10.0d ) );
+		assertThat( theServer , containsVm( theVm ) );
+	}
+	
 
 	private List<Vm> aListOfVmsWith(Vm... vms) {
 		return new ArrayList< Vm >( Arrays.asList( vms ) );
