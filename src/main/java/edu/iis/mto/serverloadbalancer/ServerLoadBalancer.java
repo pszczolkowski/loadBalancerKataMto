@@ -5,10 +5,11 @@ import java.util.List;
 public class ServerLoadBalancer {
 
 	public void balance(List<Server> servers, List<Vm> vms) {
-		if( vms.size() > 0){
-			Server server = servers.get( 0 );
-			server.addVm( vms.get( 0 ) );
-		}
+		Server server = servers.get( 0 );
+		
+		for( Vm vm : vms )
+			server.addVm( vm );
+		
 	}
 
 }
