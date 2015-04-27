@@ -23,6 +23,12 @@ public class ServerLoadBalancerAdditionalTest extends ServerLoadBalancerBaseTest
 	
 	public ServerLoadBalancerAdditionalTest(Integer[] serverCapacities,
 			Integer[] vmSizes, Integer[][] expectedVmsOnServers, Double[] expectedLoads) {
+		
+		if( serverCapacities.length != expectedVmsOnServers.length )
+			throw new IllegalArgumentException( "serverCapacities should have the same length as expectedVmsOnServers" );
+		if( serverCapacities.length != expectedLoads.length )
+			throw new IllegalArgumentException( "serverCapacities should have the same length as expectedLoads" );
+		
 		this.serverCapacities = serverCapacities;
 		this.vmSizes = vmSizes;
 		this.expectedVmsOnServers = expectedVmsOnServers;
