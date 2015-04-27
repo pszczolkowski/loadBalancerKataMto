@@ -39,15 +39,15 @@ public class ServerLoadBalancerAdditionalTest extends ServerLoadBalancerBaseTest
 	public static Collection< Object[] > getData(){
 		return Arrays.asList( new Object[][] {
 				{ 
-					new Integer[]{4,6} , 
-					new Integer[]{1,4,2} , 
-					new Integer[][]{ {0,2} , {1} },
-					new Double[]{ 75.0 , 66.66 }
+					serverCapacitiesWith(4, 6) , 
+					vmSizesWith( 1 , 4 , 2 ), 
+					vmsOnServers( vmsOnServer(0,2) , vmsOnServer(1) ),
+					loadsOf( 75.0 , 66.66 )
 				},{
-					new Integer[]{6,5,3} , 
-					new Integer[]{1,2,4,2} , 
-					new Integer[][]{ {0,2} , {1}, {3} },
-					new Double[]{ 83.33 , 40.0 , 66.66 }
+					serverCapacitiesWith( 6,5,3 ) , 
+					vmSizesWith( 1,2,4,2 ) , 
+					vmsOnServers( vmsOnServer(0,2) , vmsOnServer(1), vmsOnServer(3) ),
+					loadsOf( 83.33 , 40.0 , 66.66 )
 				}
 		});
 	}
@@ -79,6 +79,27 @@ public class ServerLoadBalancerAdditionalTest extends ServerLoadBalancerBaseTest
         for( int i = 0 ; i < expectedLoads.length ; i++ ){
         	assertThat( servers[ i ] , hasLoadPercentageOf( expectedLoads[ i ] ) );
         }
+	}
+	
+	
+	private static Integer[] vmsOnServer(Integer... vms) {
+		return vms;
+	}
+
+	private static Integer[][] vmsOnServers(Integer[]... vmsOnServers) {
+		return vmsOnServers;
+	}
+
+	private static Double[] loadsOf( Double... loads ) {
+		return loads;
+	}
+
+	private static Integer[] vmSizesWith( Integer... sizes ) {
+		return sizes;
+	}
+
+	private static Integer[] serverCapacitiesWith( Integer... capacities ) {
+		return capacities;
 	}
 
 }
