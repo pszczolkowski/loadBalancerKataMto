@@ -4,10 +4,11 @@ package edu.iis.mto.serverloadbalancer;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-import java.util.regex.Matcher;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
 public class ServerLoadBalancerTest {
@@ -23,6 +24,31 @@ public class ServerLoadBalancerTest {
 		balance( aListOfServersWith( theServer ) , anEmptyListOfVms() );
 		
 		assertThat( theServer , hasLoadPercentageOf( 0.0d ));
+	}
+
+	private Matcher<? super Server> hasLoadPercentageOf(double expectedLoadPercentage) {
+		return new CurrentLoadPercentageMatcher( expectedLoadPercentage );
+	}
+
+	private Server a(ServerBuilder builder) {
+		return builder.build();
+	}
+
+	private void balance(List<Server> servers,
+			List<Vm> vms) {
+		new ServerLoadBalancer().balance( servers , vms );
+	}
+
+	private List< Vm > anEmptyListOfVms() {
+		return new ArrayList< Vm >();
+	}
+
+	private List< Server > aListOfServersWith(Server...servers) {
+		return Arrays.asList( servers );
+	}
+
+	private ServerBuilder server() {
+		return new ServerBuilder();
 	}
 
 }
