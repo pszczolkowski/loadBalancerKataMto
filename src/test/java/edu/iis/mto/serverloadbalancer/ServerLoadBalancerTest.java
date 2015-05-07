@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
 public class ServerLoadBalancerTest {
@@ -35,10 +36,9 @@ public class ServerLoadBalancerTest {
 		balance( aListOfServersWith( theServer ) , aListOfVmsWith( theVm ) );
 		
 		assertThat( theServer , hasLoadPercentageOf( 100.0d ));
-		assertThat( theServer , server.contains( theVm ) );
+		assertThat( "the server should contain the vm" , theServer.contains( theVm ) );
 	}
 
-	
 	private List<Vm> aListOfVmsWith(Vm... vms) {
 		return Arrays.asList( vms );
 	}
