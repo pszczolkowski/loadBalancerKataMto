@@ -1,7 +1,5 @@
 package edu.iis.mto.serverloadbalancer;
 
-import org.hamcrest.Matcher;
-
 public class Server {
 
 	private int capacity;
