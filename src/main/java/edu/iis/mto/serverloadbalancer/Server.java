@@ -24,7 +24,7 @@ public class Server {
 
 	public void addVm(Vm vm) {
 		vms.add( vm );
-		currentLoadPercentage = MAXIMUM_LOAD * vm.getSize() / this.capacity;
+		currentLoadPercentage = loadOfVm(vm);
 	}
 
 	public double getCurrentLoadPercentage() {
@@ -36,7 +36,11 @@ public class Server {
 	}
 
 	public boolean canFit(Vm vm) {
-		return currentLoadPercentage + MAXIMUM_LOAD * vm.getSize() / this.capacity <= MAXIMUM_LOAD;
+		return currentLoadPercentage + loadOfVm(vm) <= MAXIMUM_LOAD;
+	}
+
+	private double loadOfVm(Vm vm) {
+		return MAXIMUM_LOAD * vm.getSize() / this.capacity;
 	}
 
 }
