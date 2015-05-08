@@ -6,7 +6,14 @@ public class ServerLoadBalancer {
 
 	public void balance(List<Server> servers, List<Vm> vms) {
 		for( Vm vm : vms ){
-			servers.get(0).addVm( vm );
+			Server leastLoadedServer = null;
+			for( Server server : servers ){
+				if( leastLoadedServer == null || server.getCurrentLoadPercentage() < leastLoadedServer.getCurrentLoadPercentage() ){
+					leastLoadedServer = server;
+				}
+			}
+			
+			leastLoadedServer.addVm( vm );
 		}
 	}
 
