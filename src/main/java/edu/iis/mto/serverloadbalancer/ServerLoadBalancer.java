@@ -1,14 +1,23 @@
 package edu.iis.mto.serverloadbalancer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServerLoadBalancer {
 
 	public void balance(List<Server> servers, List<Vm> vms) {
 		for( Vm vm : vms ){
-			Server leastLoadedServer = findLeastLoadedServer(servers);
+			List< Server > serversWithEnoughCapacity = new ArrayList<Server>();
+			for( Server server : servers ){
+				if( server.canFit( vm ) ){
+					serversWithEnoughCapacity.add( server );
+				}
+			}
 			
-			leastLoadedServer.addVm( vm );
+			Server leastLoadedServer = findLeastLoadedServer(serversWithEnoughCapacity);
+			
+			if( leastLoadedServer != null )
+				leastLoadedServer.addVm( vm );
 		}
 	}
 
