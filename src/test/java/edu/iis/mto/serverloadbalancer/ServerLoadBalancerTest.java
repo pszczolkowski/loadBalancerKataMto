@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
 public class ServerLoadBalancerTest {
@@ -63,6 +64,10 @@ public class ServerLoadBalancerTest {
 		assertThat( "servers should contain the second vm" , theServer.contains( theSecondVm )  );
 	}
 	
+
+	private Matcher<? super Server> hasVmCountOf(int expectedVmQuantity) {
+		return new ServerVmsCountMatcher( expectedVmQuantity );
+	}
 
 	private List<Vm> aListOfVmsWith(Vm... vms) {
 		return Arrays.asList( vms );
