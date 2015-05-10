@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ServerLoadBalancerTest {
@@ -77,6 +76,16 @@ public class ServerLoadBalancerTest {
 		
 		assertTrue( "less loaded server should contain the vm" , lessLoadedServer.contains( theVm ) );
 		assertFalse( "more loaded server should not contain the vm" , moreLoadedServer.contains( theVm ) );
+	}
+	
+	@Test
+	public void baancingAServerWithNotEnoughCapacity_shouldNotBeFilledWithTheVm(){
+		Server theServer = a( server().withCapacity( 100 ).withInitialLoadOf( 95.0d ) );
+		Vm theVm = a( vm().ofSize( 10 ) );
+		
+		balance( aListOfServersWith( theServer ) , aListOfVmsWith( theVm ) );
+		
+		assertFalse( "server should not contain the vm" , theServer.contains( theVm ) );
 	}
 
 
