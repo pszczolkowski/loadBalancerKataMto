@@ -1,6 +1,7 @@
 package edu.iis.mto.serverloadbalancer;
 
 import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 public class ServerVmQuantityMatcher extends TypeSafeMatcher< Server > {
@@ -22,6 +23,10 @@ public class ServerVmQuantityMatcher extends TypeSafeMatcher< Server > {
 	@Override
 	protected boolean matchesSafely( Server server ) {
 		return server.vmsCount() == vmsQuantity;
+	}
+	
+	public static Matcher<? super Server> hasVmCountof(int vmsQuantity) {
+		return new ServerVmQuantityMatcher( vmsQuantity );
 	}
 
 }

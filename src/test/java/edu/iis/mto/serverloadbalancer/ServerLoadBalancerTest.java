@@ -3,16 +3,18 @@ package edu.iis.mto.serverloadbalancer;
 
 import static edu.iis.mto.serverloadbalancer.CurrentLoadPercentageMatcher.hasCurrentLoadPercentageOf;
 import static edu.iis.mto.serverloadbalancer.ServerBuilder.server;
+import static edu.iis.mto.serverloadbalancer.ServerVmQuantityMatcher.hasVmCountof;
 import static edu.iis.mto.serverloadbalancer.VmBuilder.vm;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.hamcrest.Matcher;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ServerLoadBalancerTest {
@@ -64,11 +66,19 @@ public class ServerLoadBalancerTest {
 		assertTrue( "server should contain the first vm" , theServer.contains( theFirstVm ) );
 		assertTrue( "server should contain the second vm" , theServer.contains( theSecondVm ) );
 	}
-
 	
-	private Matcher<? super Server> hasVmCountof(int vmsQuantity) {
-		return new ServerVmQuantityMatcher( vmsQuantity );
+	@Test
+	public void balancingTwoServers_vmShouldBeAssignedToLessLoadedOne(){
+		Server moreLoadedServer = a( server().withCapacity( 100 ).withInitialLoadOf( 60.0d ) );
+		Server lessLoadedServer = a( server().withCapacity( 100 ).withInitialLoadOf( 50.0d ) );
+		Vm theVm = a( vm().ofSize( 10 ) );
+		
+		balance( aListOfServersWith( moreLoadedServer , lessLoadedServer ) , aListOfVmsWith( theVm ) );
+		
+		assertTrue( "less loaded server should contain the vm" , lessLoadedServer.contains( theVm ) );
+		assertFalse( "more loaded server should not contain the vm" , moreLoadedServer.contains( theVm ) );
 	}
+
 
 	private List<Vm> aListOfVmsWith(Vm...vms) {
 		return Arrays.asList( vms );
