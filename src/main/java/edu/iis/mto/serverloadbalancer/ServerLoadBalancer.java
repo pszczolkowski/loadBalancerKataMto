@@ -5,8 +5,8 @@ import java.util.List;
 public class ServerLoadBalancer {
 
 	public void balance(List<Server> servers, List<Vm> vms) {
-		if( vms.size() > 0 ){
-			servers.get(0).addVm( vms.get(0) );
+		for( Vm vm: vms ){
+			servers.get(0).addVm( vm );
 		}
 	}
 
