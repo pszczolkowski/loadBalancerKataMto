@@ -33,7 +33,7 @@ public class ServerLoadBalancer {
 	private Server findLeastLoadedServerIn(List< Server > servers) {
 		Server leastLoadedServer = null;
 		for( Server server : servers ){
-			if( leastLoadedServer == null || server.currentLoadPercentage <= leastLoadedServer.currentLoadPercentage ){
+			if( leastLoadedServer == null || server.currentLoadPercentage < leastLoadedServer.currentLoadPercentage ){
 				leastLoadedServer = server;
 			}
 		}
