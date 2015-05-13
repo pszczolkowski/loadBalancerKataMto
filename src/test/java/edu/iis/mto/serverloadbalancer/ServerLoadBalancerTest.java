@@ -7,6 +7,7 @@ import static edu.iis.mto.serverloadbalancer.VmBuilder.vm;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
 public class ServerLoadBalancerTest {
@@ -60,8 +61,12 @@ public class ServerLoadBalancerTest {
 	}
 
 
-	private Vm[] aListOfVmsWith(Vm theVm) {
-		return new Vm[]{ theVm };
+	private Matcher<? super Server> hasVmsCountOf(int expectedVmsCount) {
+		return new ServerVmsCountMatcher( expectedVmsCount );
+	}
+
+	private Vm[] aListOfVmsWith(Vm...vms) {
+		return vms;
 	}
 
 	private <T> T a(Builder< T > builder) {
